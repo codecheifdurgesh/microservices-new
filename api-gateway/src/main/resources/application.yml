@@ -1,0 +1,51 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: CATEGORY-SERVICE
+          uri: http://localhost:8082/
+          predicates:
+            - Path= /category/**
+        - id: INVENTORY-SERVICE
+          uri: http://localhost:8084/
+          predicates:
+            - Path= /inventory/**
+        - id: ORDER-SERVICE
+          uri: http://localhost:8083/
+          predicates:
+            - Path= /orders/**
+        - id: PRODUCT-SERVICE
+          uri: http://localhost:8081/
+          predicates:
+            - Path= /products/**
+        - id: DISCOVERY-SERVICE
+          uri: http://localhost:8761/
+          predicates:
+            - Path= /eureka/web
+          filters:
+            - name: RewritePath
+              args:
+                regexp: /eureka/web
+                replacement: /
+        - id: DISCOVERY-SERVICE-STATIC
+          uri: http://localhost:8761/
+          predicates:
+            - Path= /eureka/**
+
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    root: INFO

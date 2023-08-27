@@ -1,0 +1,26 @@
+
+server:
+  port: 8084
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/Shopping?useSSL=false
+    username: root
+    password: Optimist@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  application:
+    name: INVENTORY_SERVICE
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+

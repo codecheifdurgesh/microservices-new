@@ -1,0 +1,20 @@
+# First stage: Build the layered JAR
+FROM openjdk:8-jre as builder1
+WORKDIR extracted
+ADD target/*.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+# Second stage: Copy extracted files
+FROM openjdk:8-jre as builder2
+WORKDIR application
+COPY --from=builder1 extracted/dependencies/ ./
+COPY --from=builder1 extracted/spring-boot-loader/ ./
+COPY --from=builder1 extracted/snapshot-dependencies/ ./
+COPY --from=builder1 extracted/application/ ./
+
+# Final stage: Run the Spring Boot application
+FROM openjdk:8-jre
+WORKDIR application
+EXPOSE 8080
+COPY --from=builder2 application/ ./
+ENTRYPOINT ["java","org.springframework.boot.loader.JarLauncher"]
