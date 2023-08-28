@@ -1,6 +1,6 @@
 
 server:
-  port: 8084
+  port: 0
 
 
 spring:
@@ -17,7 +17,7 @@ spring:
     hibernate:
       ddl-auto: update
   application:
-    name: INVENTORY_SERVICE
+    name: INVENTORY-SERVICE
 eureka:
   client:
     service-url:

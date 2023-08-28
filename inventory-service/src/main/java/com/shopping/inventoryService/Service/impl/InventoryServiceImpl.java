@@ -5,6 +5,8 @@ import com.shopping.inventoryService.DTO.InventoryResponseDTO;
 import com.shopping.inventoryService.Entity.Inventory;
 import com.shopping.inventoryService.Repository.InventoryRepository;
 import com.shopping.inventoryService.Service.InventoryService;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,12 +15,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class InventoryServiceImpl implements InventoryService {
     @Autowired
     private InventoryRepository inventoryRepository;
 
     @Override
+    @SneakyThrows
     public List<InventoryResponseDTO> checkInStock(List<String> skuCode) {
+        log.info("wait strted");
+        Thread.sleep(1000);
+        log.info("wait ended");
         return this.inventoryRepository.findBySkuCodeIn(skuCode).stream()
                 .map(inventory ->
                         InventoryResponseDTO.builder()
