@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: API-GATEWAY
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1.0
   cloud:
     gateway:
       routes:
@@ -49,3 +54,5 @@ eureka:
 logging:
   level:
     root: INFO
+
+
